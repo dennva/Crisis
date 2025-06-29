@@ -117,27 +117,17 @@ const navigationLinks = Object.values(content).map(section => ({ href: `#${secti
 
 
 // --- HOOKS ---
-const useOnScreen = (ref, threshold = 0.1) => {
-    const [isIntersecting, setIntersecting] = useState(false);
-    useEffect(() => {
-        const observer = new IntersectionObserver(([entry]) => {
-            if (entry.isIntersecting) setIntersecting(true);
-        }, { rootMargin: '0px', threshold });
-        if (ref.current) observer.observe(ref.current);
-        return () => { if (ref.current) observer.unobserve(ref.current); };
-    }, [ref, threshold]);
-    return isIntersecting;
-};
+// FIX: Menghapus hook useOnScreen karena akan digantikan oleh fitur 'whileInView' dari Framer Motion.
+// const useOnScreen = (ref, threshold = 0.1) => { ... };
 
 // --- ANIMATION WRAPPER COMPONENT ---
+// FIX: Menggunakan 'whileInView' untuk animasi yang lebih andal dan sederhana.
 const AnimatedSection = ({ children, className = '', delay = 0 }) => {
-    const ref = useRef(null);
-    const onScreen = useOnScreen(ref, 0.2);
     return (
         <motion.div
-            ref={ref}
             initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: onScreen ? 1 : 0, y: onScreen ? 0 : 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.8, delay, ease: "easeOut" }}
             className={className}
         >
@@ -267,7 +257,6 @@ export default function App() {
                 <main>
                     <div ref={sectionRefs['#hero']} id="hero"><Hero /></div>
                     
-                    {/* FIX: Menambahkan 'id' yang sesuai dengan ref agar IntersectionObserver berfungsi */}
                     <div ref={sectionRefs['#introduction']} id="introduction"><ContentSection {...content.introduction} /></div>
                     
                     <section ref={sectionRefs['#archetype']} id="archetype" className="py-20 md:py-32 bg-gray-900 bg-opacity-20">
