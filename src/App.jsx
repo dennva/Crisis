@@ -1,4 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
+// PASTIKAN ANDA SUDAH MENGINSTAL SEMUA DEPENDENSI INI:
+// npm install framer-motion recharts
 import { motion, useScroll, useTransform } from 'framer-motion';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 
@@ -265,7 +267,8 @@ export default function App() {
                 <main>
                     <div ref={sectionRefs['#hero']} id="hero"><Hero /></div>
                     
-                    <div ref={sectionRefs['#introduction']}><ContentSection {...content.introduction} /></div>
+                    {/* FIX: Menambahkan 'id' yang sesuai dengan ref agar IntersectionObserver berfungsi */}
+                    <div ref={sectionRefs['#introduction']} id="introduction"><ContentSection {...content.introduction} /></div>
                     
                     <section ref={sectionRefs['#archetype']} id="archetype" className="py-20 md:py-32 bg-gray-900 bg-opacity-20">
                         <div className="container mx-auto px-6 max-w-5xl">
@@ -280,33 +283,33 @@ export default function App() {
                              <AnimatedSection><h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-400 mb-12 text-center">{content.deflationaryCycle.title}</h2></AnimatedSection>
                              <AnimatedSection><p className="text-lg md:text-xl text-gray-300 mb-12 leading-relaxed text-center max-w-4xl mx-auto">{content.deflationaryCycle.paragraphs[0]}</p></AnimatedSection>
                              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 my-12">
-                                {content.deflationaryCycle.phases.map((phase, i) => (
-                                    <AnimatedSection key={phase.name} delay={0.1 * i} className="bg-gray-900 bg-opacity-40 p-6 rounded-lg border border-gray-700 hover:border-amber-400 transition-all duration-300">
-                                        <h3 className="font-bold text-xl text-amber-400 mb-2">{phase.name}</h3>
-                                        <p className="text-gray-400">{phase.description}</p>
-                                    </AnimatedSection>
-                                ))}
+                                 {content.deflationaryCycle.phases.map((phase, i) => (
+                                     <AnimatedSection key={phase.name} delay={0.1 * i} className="bg-gray-900 bg-opacity-40 p-6 rounded-lg border border-gray-700 hover:border-amber-400 transition-all duration-300">
+                                         <h3 className="font-bold text-xl text-amber-400 mb-2">{phase.name}</h3>
+                                         <p className="text-gray-400">{phase.description}</p>
+                                     </AnimatedSection>
+                                 ))}
                              </div>
                              <InteractiveChart data={content.deflationaryCycle.chartData.cyclePhases} caption={content.deflationaryCycle.chartData.caption} lines={[{ dataKey: 'Total Debt (%GDP)', color: '#FBBF24' }, { dataKey: 'Debt Service (%GDP)', color: '#60A5FA' }]} />
                         </div>
                     </section>
 
                      <section ref={sectionRefs['#policy-levers']} id="policy-levers" className="py-20 md:py-32 bg-gray-900 bg-opacity-20">
-                        <div className="container mx-auto px-6 max-w-4xl">
-                            <AnimatedSection><h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-400 mb-12 text-center">{content.policyLevers.title}</h2></AnimatedSection>
+                         <div className="container mx-auto px-6 max-w-4xl">
+                             <AnimatedSection><h2 className="text-4xl md:text-5xl font-serif font-bold text-amber-400 mb-12 text-center">{content.policyLevers.title}</h2></AnimatedSection>
                              <AnimatedSection><p className="text-lg md:text-xl text-gray-300 mb-12 leading-relaxed text-center">{content.policyLevers.paragraphs[0]}</p></AnimatedSection>
-                            <div className="grid md:grid-cols-2 gap-8">
-                                {content.policyLevers.levers.map((lever, i) => (
-                                    <AnimatedSection key={lever.name} delay={0.1*i} className="flex items-start space-x-4">
-                                        <div className="text-4xl">{lever.icon}</div>
-                                        <div>
-                                            <h3 className="font-bold text-xl text-amber-400 mb-1">{lever.name}</h3>
-                                            <p className="text-gray-400">{lever.description}</p>
-                                        </div>
-                                    </AnimatedSection>
-                                ))}
-                            </div>
-                        </div>
+                             <div className="grid md:grid-cols-2 gap-8">
+                                 {content.policyLevers.levers.map((lever, i) => (
+                                     <AnimatedSection key={lever.name} delay={0.1*i} className="flex items-start space-x-4">
+                                         <div className="text-4xl">{lever.icon}</div>
+                                         <div>
+                                             <h3 className="font-bold text-xl text-amber-400 mb-1">{lever.name}</h3>
+                                             <p className="text-gray-400">{lever.description}</p>
+                                         </div>
+                                     </AnimatedSection>
+                                 ))}
+                             </div>
+                         </div>
                     </section>
                     
                     <section ref={sectionRefs['#inflationary-cycle']} id="inflationary-cycle" className="py-20 md:py-32">
